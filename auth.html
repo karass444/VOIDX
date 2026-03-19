@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOIDX — Giriş</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Bebas+Neue&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#03000a;--gold:#c9a84c;--txt:#ede4cc;--err:#ff4466}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;overflow:hidden}
+#bg{position:fixed;inset:0;z-index:0}
+.nebula{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 65% 55% at 10% 75%,rgba(109,40,217,0.14),transparent 60%),radial-gradient(ellipse 55% 50% at 90% 15%,rgba(168,85,247,0.09),transparent 55%)}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+.wrap{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:min(480px,100%);position:relative;border:1px solid rgba(201,168,76,0.15);border-radius:24px;background:rgba(6,2,16,0.98);backdrop-filter:blur(40px);padding:52px 48px 44px;overflow:hidden;box-shadow:0 48px 120px rgba(0,0,0,0.8),0 0 200px rgba(109,40,217,0.07),inset 0 1px 0 rgba(201,168,76,0.07)}
+.card-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:180px;background:radial-gradient(ellipse,rgba(123,47,255,0.1),transparent 70%);pointer-events:none}
+.scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent);top:0;animation:scan 9s ease-in-out infinite;pointer-events:none;z-index:5}
+@keyframes scan{0%{top:-1%;opacity:0}4%{opacity:1}93%{opacity:.4}100%{top:101%;opacity:0}}
+.corner{position:absolute;width:14px;height:14px;opacity:.3}
+.corner.tl{top:0;left:0;border-top:1px solid var(--gold);border-left:1px solid var(--gold);border-radius:24px 0 0 0}
+.corner.tr{top:0;right:0;border-top:1px solid var(--gold);border-right:1px solid var(--gold);border-radius:0 24px 0 0}
+.corner.bl{bottom:0;left:0;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);border-radius:0 0 0 24px}
+.corner.br{bottom:0;right:0;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);border-radius:0 0 24px 0}
+.logo-wrap{text-align:center;margin-bottom:40px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:50px;letter-spacing:0.3em;color:transparent;padding-left:0.3em;background:linear-gradient(135deg,#a855f7 0%,#c9a84c 38%,#fff 55%,#c9a84c 72%,#7b2fff 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 28px rgba(201,168,76,0.18));line-height:1}
+.logo-sub{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:0.55em;color:rgba(237,228,204,0.18);margin-top:7px;padding-left:0.55em}
+.logo-sep{width:44px;height:1px;margin:18px auto 0;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.38),transparent)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:32px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:4px}
+.tab{padding:10px;cursor:pointer;border:none;background:transparent;border-radius:9px;font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:400;color:rgba(237,228,204,0.32);transition:all .2s}
+.tab:hover{color:rgba(237,228,204,0.6)}
+.tab.active{color:var(--txt);font-weight:500;background:rgba(255,255,255,0.055);box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.form{display:flex;flex-direction:column;gap:15px}
+.field-wrap{display:flex;flex-direction:column;gap:7px}
+.field-label{font-size:12.5px;font-weight:400;color:rgba(237,228,204,0.42);letter-spacing:0.01em}
+.field{width:100%;padding:13px 16px;background:rgba(255,255,255,0.028);border:1px solid rgba(255,255,255,0.08);border-radius:10px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;color:var(--txt);outline:none;transition:all .22s}
+.field:focus{border-color:rgba(201,168,76,0.38);background:rgba(201,168,76,0.018);box-shadow:0 0 0 3px rgba(201,168,76,0.055)}
+.field::placeholder{color:rgba(237,228,204,0.16)}
+.field-err{display:none;font-size:11px;color:var(--err);margin-top:1px}
+.field-err.show{display:block}
+.g-err{display:none;padding:11px 15px;border-radius:10px;border:1px solid rgba(255,68,102,0.18);background:rgba(255,68,102,0.04);font-size:12px;color:rgba(255,120,140,0.85);margin-bottom:4px}
+.g-err.show{display:block}
+.btn-main{width:100%;padding:14px;margin-top:6px;border-radius:11px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.04em;border:1px solid rgba(201,168,76,0.22);background:rgba(201,168,76,0.09);color:rgba(201,168,76,0.9);transition:all .22s;position:relative;overflow:hidden}
+.btn-main::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.04),transparent);pointer-events:none}
+.btn-main:hover{border-color:rgba(201,168,76,0.42);background:rgba(201,168,76,0.15);color:#c9a84c;box-shadow:0 0 36px rgba(201,168,76,0.09),0 6px 28px rgba(0,0,0,0.3);transform:translateY(-1px)}
+.btn-main:active{transform:scale(0.99)}
+.btn-main:disabled{opacity:0.35;cursor:not-allowed;transform:none}
+.or-wrap{display:flex;align-items:center;gap:14px;margin:4px 0}
+.or-line{flex:1;height:1px;background:rgba(255,255,255,0.055)}
+.or-txt{font-size:11.5px;color:rgba(237,228,204,0.2);letter-spacing:0.06em}
+.btn-google{width:100%;padding:13px 16px;border-radius:11px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:400;border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.04);color:rgba(237,228,204,0.65);transition:all .22s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-google:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:rgba(237,228,204,0.9);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.25)}
+.btn-google:active{transform:scale(0.99)}
+.footer-link{margin-top:18px;text-align:center;font-size:12px;color:rgba(237,228,204,0.22)}
+.footer-link span{color:rgba(201,168,76,0.55);cursor:pointer;transition:color .2s}
+.footer-link span:hover{color:rgba(201,168,76,0.85)}
+.loading{display:none;position:absolute;inset:0;z-index:20;background:rgba(6,2,16,0.82);backdrop-filter:blur(8px);align-items:center;justify-content:center;border-radius:24px}
+.loading.show{display:flex}
+.spinner{width:28px;height:28px;border-radius:50%;border:2px solid rgba(201,168,76,0.1);border-top-color:rgba(201,168,76,0.65);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="nebula"></div>
+<div class="grain"></div>
+<div class="wrap">
+  <div class="card">
+    <div class="card-glow"></div>
+    <div class="scan"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <div class="loading" id="loading"><div class="spinner"></div></div>
+    <div class="logo-wrap">
+      <div class="logo">VOIDX</div>
+      <div class="logo-sub">INTELLIGENCE BEYOND LIMITS</div>
+      <div class="logo-sep"></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="tab-login" onclick="showTab('login')">Giriş Yap</button>
+      <button class="tab" id="tab-register" onclick="showTab('register')">Kayıt Ol</button>
+    </div>
+    <div id="form-login" class="form">
+      <div class="g-err" id="g-err-login"></div>
+      <div class="field-wrap">
+        <div class="field-label">E-posta adresi</div>
+        <input class="field" id="l-email" type="email" placeholder="ornek@email.com" autocomplete="email">
+        <div class="field-err" id="l-email-err"></div>
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">Şifre</div>
+        <input class="field" id="l-pass" type="password" placeholder="Şifrenizi girin" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <div class="field-err" id="l-pass-err"></div>
+      </div>
+      <button class="btn-main" id="btn-login" onclick="doLogin()">Giriş Yap</button>
+      <div class="or-wrap"><div class="or-line"></div><span class="or-txt">veya</span><div class="or-line"></div></div>
+      <button class="btn-google" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.96L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+        Google ile devam et
+      </button>
+      <div class="footer-link">Hesabın yok mu? <span onclick="showTab('register')">Kayıt ol</span></div>
+    </div>
+    <div id="form-register" class="form" style="display:none">
+      <div class="g-err" id="g-err-register"></div>
+      <div class="field-wrap">
+        <div class="field-label">E-posta adresi</div>
+        <input class="field" id="r-email" type="email" placeholder="ornek@email.com" autocomplete="email">
+        <div class="field-err" id="r-email-err"></div>
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">Şifre</div>
+        <input class="field" id="r-pass" type="password" placeholder="En az 6 karakter" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
+        <div class="field-err" id="r-pass-err"></div>
+      </div>
+      <button class="btn-main" id="btn-register" onclick="doRegister()">Hesap Oluştur</button>
+      <div class="or-wrap"><div class="or-line"></div><span class="or-txt">veya</span><div class="or-line"></div></div>
+      <button class="btn-google" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.96L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+        Google ile devam et
+      </button>
+      <div class="footer-link">Hesabın var mı? <span onclick="showTab('login')">Giriş yap</span></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){const cv=document.getElementById('bg'),cx=cv.getContext('2d');let W,H,S=[];function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}function mk(){S=[];for(let i=0;i<220;i++){const t=Math.random();S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.15,o:Math.random()*0.5+0.03,sp:Math.random()*0.055+0.006,t:t<0.5?'w':t<0.75?'g':'p'})}}function draw(){cx.clearRect(0,0,W,H);for(const s of S){cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);cx.fillStyle=s.t==='g'?`rgba(201,168,76,${s.o})`:s.t==='p'?`rgba(168,85,247,${s.o*0.45})`:`rgba(215,205,190,${s.o*0.32})`;cx.fill();s.y+=s.sp;if(s.y>H){s.y=0;s.x=Math.random()*W}}requestAnimationFrame(draw)}window.addEventListener('resize',()=>{resize();mk()});resize();mk();draw();})();
+let activeTab='login';
+function showTab(t){activeTab=t;document.getElementById('tab-login').classList.toggle('active',t==='login');document.getElementById('tab-register').classList.toggle('active',t==='register');document.getElementById('form-login').style.display=t==='login'?'flex':'none';document.getElementById('form-register').style.display=t==='register'?'flex':'none';clearErrors()}
+function clearErrors(){document.querySelectorAll('.field-err').forEach(e=>{e.classList.remove('show');e.textContent=''});document.querySelectorAll('.g-err').forEach(e=>{e.classList.remove('show');e.textContent=''})}
+function showErr(msg){const id=activeTab==='login'?'g-err-login':'g-err-register';const e=document.getElementById(id);e.textContent=msg;e.classList.add('show')}
+function fieldErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.classList.add('show')}
+function setLoading(on){document.getElementById('loading').classList.toggle('show',on)}
+function googleLogin(){window.location.href="/auth/google"}
+const API='http://localhost:5000';
+async function doLogin(){clearErrors();const email=document.getElementById('l-email').value.trim();const pass=document.getElementById('l-pass').value;let ok=true;if(!email){fieldErr('l-email-err','E-posta gerekli');ok=false}if(!pass){fieldErr('l-pass-err','Şifre gerekli');ok=false}if(!ok)return;const btn=document.getElementById('btn-login');btn.disabled=true;btn.textContent='Giriş yapılıyor...';setLoading(true);try{const res=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});const data=await res.json();if(!res.ok){showErr(data.error||'Giriş başarısız');return}localStorage.setItem('voidx_token',data.token);localStorage.setItem('voidx_user',JSON.stringify(data.user));window.location.href='index.html'}catch(e){showErr('Sunucuya bağlanılamadı')}finally{btn.disabled=false;btn.textContent='Giriş Yap';setLoading(false)}}
+async function doRegister(){clearErrors();const email=document.getElementById('r-email').value.trim();const pass=document.getElementById('r-pass').value;let ok=true;if(!email||!email.includes('@')){fieldErr('r-email-err','Geçerli e-posta gir');ok=false}if(pass.length<6){fieldErr('r-pass-err','En az 6 karakter');ok=false}if(!ok)return;const btn=document.getElementById('btn-register');btn.disabled=true;btn.textContent='Oluşturuluyor...';setLoading(true);try{const res=await fetch(API+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});const data=await res.json();if(!res.ok){showErr(data.error||'Kayıt başarısız');return}localStorage.setItem('voidx_token',data.token);localStorage.setItem('voidx_user',JSON.stringify(data.user));window.location.href='index.html'}catch(e){showErr('Sunucuya bağlanılamadı')}finally{btn.disabled=false;btn.textContent='Hesap Oluştur';setLoading(false)}}
+if(localStorage.getItem('voidx_token')){window.location.href='index.html'}
+</script>
+</body>
+</html>
