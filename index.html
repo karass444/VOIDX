@@ -414,7 +414,7 @@ function sw(name,el){
 async function checkCore(){
   const p=document.getElementById('cpill');
   try{
-    const r=await fetch('http://localhost:5000/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'ping',session_id:'init'})});
+    const r=await fetch('https://gunicorn-app-production-48e6.up.railway.app/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'ping',session_id:'init'})});
     const d=await r.json();
     p.innerHTML='<div class="dot live"></div>'+(L.connected||'BAĞLI');
   }catch{
@@ -499,7 +499,7 @@ async function doFetch(msg,sid,pfx,cs,thid){
   let di=0;
   const iv=setInterval(function(){const d=document.getElementById('d'+thid);if(d)d.textContent=['.','..','...'][di++%3]},400);
   try{
-    const res=await fetch('http://localhost:5000/chat',{
+    const res=await fetch('https://gunicorn-app-production-48e6.up.railway.app/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({message:msg,session_id:sid})
@@ -523,31 +523,31 @@ const sc1=document.getElementById('cs1'),SID1='chat_'+Date.now();
 function sendChat(){const i=document.getElementById('ci1');const v=i.value.trim();if(!v)return;i.value='';addM(sc1,'mu',v);doFetch(v,SID1,'VOIDX',sc1,'c'+Date.now())}
 async function resetChat(){
   sc1.innerHTML='';
-  try{await fetch('http://localhost:5000/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:SID1})})}catch(e){}
-  try{await fetch('http://localhost:5000/save_history',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[]})})}catch(e){}
+  try{await fetch('https://gunicorn-app-production-48e6.up.railway.app/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:SID1})})}catch(e){}
+  try{await fetch('https://gunicorn-app-production-48e6.up.railway.app/save_history',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[]})})}catch(e){}
 }
 
 // ===================== MÜZİK =====================
 const sc2=document.getElementById('cs2'),SID2='music_'+Date.now();
 function sendMusic(){const i=document.getElementById('ci2');const v=i.value.trim();if(!v)return;i.value='';addM(sc2,'mu',v);doFetch('Sen Türk halkları için profesyonel müzik yapımcısısın. Kullanıcının dilinde yanıt ver. İstek: '+v,SID2,'VOIDX · MÜZİK',sc2,'m'+Date.now())}
-async function resetMusic(){sc2.innerHTML='';try{await fetch('http://localhost:5000/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:SID2})})}catch(e){}}
+async function resetMusic(){sc2.innerHTML='';try{await fetch('https://gunicorn-app-production-48e6.up.railway.app/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:SID2})})}catch(e){}}
 
 // ===================== KOD =====================
 const sc3=document.getElementById('cs3'),SID3='code_'+Date.now();
 function sendCode(){const i=document.getElementById('ci3');const v=i.value.trim();if(!v)return;i.value='';addM(sc3,'mu',v);doFetch('Sen uzman yazılım geliştiricisisin. Temiz kod yaz, ``` blokları kullan. Kullanıcının dilinde yanıt ver. İstek: '+v,SID3,'VOIDX · KOD',sc3,'k'+Date.now())}
-async function resetCode(){sc3.innerHTML='';try{await fetch('http://localhost:5000/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:SID3})})}catch(e){}}
+async function resetCode(){sc3.innerHTML='';try{await fetch('https://gunicorn-app-production-48e6.up.railway.app/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:SID3})})}catch(e){}}
 
 // ===================== GEÇMİŞ =====================
 async function saveHistory(){
   try{
     const msgs=[];
     document.querySelectorAll('#cs1 .msg').forEach(function(m){msgs.push({cls:m.className,html:m.innerHTML})});
-    await fetch('http://localhost:5000/save_history',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:msgs})});
+    await fetch('https://gunicorn-app-production-48e6.up.railway.app/save_history',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:msgs})});
   }catch(e){}
 }
 async function loadHistory(){
   try{
-    const res=await fetch('http://localhost:5000/load_history');
+    const res=await fetch('https://gunicorn-app-production-48e6.up.railway.app/load_history');
     const data=await res.json();
     if(data.messages&&data.messages.length>0){
       data.messages.forEach(function(m){const d=document.createElement('div');d.className=m.cls;d.innerHTML=m.html;sc1.appendChild(d)});
@@ -572,7 +572,7 @@ function uploadFile(){
       let di=0;
       const iv=setInterval(function(){const d=document.getElementById('dfile');if(d)d.textContent=['.','..','...'][di++%3]},400);
       try{
-        const res=await fetch('http://localhost:5000/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:ev.target.result,filename:file.name,session_id:SID1})});
+        const res=await fetch('https://gunicorn-app-production-48e6.up.railway.app/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:ev.target.result,filename:file.name,session_id:SID1})});
         const data=await res.json();
         clearInterval(iv);
         const el=document.getElementById('thfile');if(el)el.remove();
