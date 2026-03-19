@@ -20,7 +20,7 @@ FREE_LIMIT   = 50
 
 GOOGLE_CLIENT_ID     = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-GOOGLE_REDIRECT_URI  = "http://localhost:5000/auth/google/callback"
+GOOGLE_REDIRECT_URI  = os.getenv("GOOGLE_REDIRECT_URI", "http://localhost:5000/auth/google/callback")
 
 client = Groq(api_key=GROQ_KEY)
 SYSTEM_PROMPT = "You are VOIDX, an advanced AI assistant. Detect the language and always respond in the same language. You are powerful, precise and friendly. Never mention Groq or any platform."
