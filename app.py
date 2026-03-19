@@ -15,7 +15,7 @@ JWT_SECRET   = os.getenv("JWT_SECRET", "voidx_key")
 STRIPE_KEY   = "sk_test_YOUR_STRIPE_KEY_HERE"
 PRICE_ID     = "price_YOUR_PRICE_ID_HERE"
 BASE_DIR     = "/home/kara/VOIDX"
-DB_PATH      = os.path.join(BASE_DIR, "voidx.db")
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "voidx.db")
 FREE_LIMIT   = 50
 
 GOOGLE_CLIENT_ID     = os.getenv("GOOGLE_CLIENT_ID")
