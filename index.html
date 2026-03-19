@@ -501,7 +501,7 @@ async function doFetch(msg,sid,pfx,cs,thid){
   try{
     const res=await fetch('https://gunicorn-app-production-48e6.up.railway.app/chat',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(localStorage.getItem('voidx_token')||'')},
       body:JSON.stringify({message:msg,session_id:sid})
     });
     const data=await res.json();
